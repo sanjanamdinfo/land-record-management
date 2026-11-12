@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7f4">
+    <title>Land Registry | Land Record Management</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#" aria-label="Land Registry home">
+                <span class="brand-mark" aria-hidden="true">L</span>
+                <span>Land<span class="brand-light">Registry</span></span>
+            </a>
+            <p class="sidebar-label">WORKSPACE</p>
+            <a class="nav-link active" href="#records" aria-current="page">
+                <span aria-hidden="true">▦</span> Land records
+            </a>
+            <div class="sidebar-note">
+                <span class="note-icon" aria-hidden="true">◎</span>
+                <strong>Your records, organized.</strong>
+                <p>Keep land ownership details in one simple place.</p>
+            </div>
+            <p class="sidebar-footer">Private to this browser</p>
+        </aside>
+
+        <main class="main-content" id="records">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">LAND MANAGEMENT</p>
+                    <h1>Land records</h1>
+                    <p class="page-description">Manage and keep track of your property details.</p>
+                </div>
+                <button class="button button-primary" id="addRecordButton" type="button">
+                    <span aria-hidden="true">＋</span> Add a record
+                </button>
+            </header>
+
+            <section class="stats-grid" aria-label="Record summary">
+                <article class="stat-card">
+                    <div class="stat-icon icon-green" aria-hidden="true">▦</div>
+                    <div><p>Total records</p><strong id="recordCount">0</strong></div>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon icon-blue" aria-hidden="true">⌖</div>
+                    <div><p>Total land area</p><strong id="totalArea">0 <span>sq ft</span></strong></div>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon icon-amber" aria-hidden="true">⌂</div>
+                    <div><p>Locations</p><strong id="locationCount">0</strong></div>
+                </article>
+            </section>
+
+            <section class="records-panel" aria-labelledby="recordsHeading">
+                <div class="panel-heading">
+                    <div>
+                        <h2 id="recordsHeading">Property portfolio</h2>
+                        <p>Search, review, and manage your land records.</p>
+                    </div>
+                    <button class="button button-secondary" id="exportButton" type="button">
+                        <span aria-hidden="true">↧</span> Export CSV
+                    </button>
+                </div>
+
+                <div class="toolbar">
+                    <label class="search-box">
+                        <span aria-hidden="true">⌕</span>
+                        <span class="visually-hidden">Search records</span>
+                        <input id="search" type="search" placeholder="Search owner, land ID, or location">
+                    </label>
+                    <label class="sort-control" for="sortRecords">
+                        <span>Sort by</span>
+                        <select id="sortRecords">
+                            <option value="owner">Owner name</option>
+                            <option value="landId">Land ID</option>
+                            <option value="area-desc">Largest area</option>
+                            <option value="area-asc">Smallest area</option>
+                            <option value="location">Location</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="table-wrap">
+                    <table id="landTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">OWNER</th>
+                                <th scope="col">LAND ID</th>
+                                <th scope="col">AREA</th>
+                                <th scope="col">LOCATION</th>
+                                <th scope="col"><span class="visually-hidden">Actions</span></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="empty-state" id="emptyState">
+                        <span class="empty-icon" aria-hidden="true">▤</span>
+                        <h3 id="emptyTitle">No land records yet</h3>
+                        <p id="emptyMessage">Add your first property to get started.</p>
+                        <button class="button button-primary" id="emptyAddButton" type="button">Add your first record</button>
+                    </div>
+                </div>
+                <p class="table-footer" id="tableFooter" aria-live="polite"></p>
+            </section>
+        </main>
+    </div>
+
+    <dialog id="recordDialog" aria-labelledby="dialogTitle">
+        <form id="landForm">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">PROPERTY DETAILS</p>
+                    <h2 id="dialogTitle">Add a land record</h2>
+                </div>
+                <button class="icon-button" id="closeDialogButton" type="button" aria-label="Close dialog">×</button>
+            </div>
+            <label for="owner">Owner name</label>
+            <input id="owner" name="owner" type="text" maxlength="100" placeholder="e.g. Alex Morgan" required>
+            <div class="form-row">
+                <div>
+                    <label for="landId">Land ID</label>
+                    <input id="landId" name="landId" type="text" maxlength="50" placeholder="e.g. LD-1042" required>
+                </div>
+                <div>
+                    <label for="area">Area <span>(sq ft)</span></label>
+                    <input id="area" name="area" type="number" min="0.01" step="any" placeholder="e.g. 2400" required>
+                </div>
+            </div>
+            <label for="location">Location</label>
+            <input id="location" name="location" type="text" maxlength="120" placeholder="City, district, or address" required>
+            <div class="dialog-actions">
+                <button class="button button-secondary" id="cancelButton" type="button">Cancel</button>
+                <button class="button button-primary" id="saveButton" type="submit">Save record</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
